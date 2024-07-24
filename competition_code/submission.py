@@ -83,87 +83,6 @@ class RoarCompetitionSolution:
             self.current_waypoint_idx,
             self.maneuverable_waypoints
         )
-        
-    def modified_points_bad(self, waypoints):
-        end_ind = 1964
-        num_points = 50
-        start_ind = end_ind - num_points
-        shift_vector = np.array([0.5, 0, 0])
-        step_vector = shift_vector / num_points
-
-        s2 = 1965
-        num_points2 = 150
-        shift_vector2 = np.array([0, 2.0, 0])
-
-
-        new_points = []
-        for ind, waypoint in enumerate(waypoints):
-            p = waypoint
-            if ind >= start_ind and ind < end_ind:
-                p = self.point_plus_vec(p, step_vector * (ind - start_ind))
-            if ind >= s2 and ind < s2 + num_points2:
-                 p = self.point_plus_vec(p, shift_vector2)
-            new_points.append(p)
-        return new_points
-
-    def modified_points_good(self, waypoints):
-        start_ind = 1920
-        num_points = 100
-        end_ind = start_ind + num_points
-        shift_vector = np.array([2.8, 0, 0])
-        step_vector = shift_vector / num_points
-
-        s2 = 1965
-        num_points2 = 150
-        shift_vector2 = np.array([0, 3.5, 0])
-
-        s3 = 1920
-        num_points3 = 195
-        shift_vector3 = np.array([0.0, 0, 0])
-
-        new_points = []
-        for ind, waypoint in enumerate(waypoints):
-            p = waypoint
-            if ind >= start_ind and ind < end_ind:
-                p = self.point_plus_vec(p, step_vector * (end_ind - ind))
-            if ind >= s2 and ind < s2 + num_points2:
-                p = self.point_plus_vec(p, shift_vector2)
-            if ind >= s3 and ind < s3 + num_points3:
-                p = self.point_plus_vec(p, shift_vector3)
-            new_points.append(p)
-        return new_points
-
-    def point_plus_vec(self, waypoint, vector):
-        new_location = waypoint.location + vector
-        return roar_py_interface.RoarPyWaypoint(location=new_location,
-                                                roll_pitch_yaw=waypoint.roll_pitch_yaw,
-                                                lane_width=waypoint.lane_width)
-
-
-    def modified_points_also_bad(self, waypoints):
-        new_points = []
-        for ind, waypoint in enumerate(waypoints):
-            if ind >= 1962 and ind <= 2027:
-                new_points.append(self.new_point(waypoint, self.new_y(waypoint.location[0])))
-            else:
-                new_points.append(waypoint)
-        return new_points
-    
-
-    def new_x(self, waypoint, new_x):
-        new_location = np.array([new_x, waypoint.location[1], waypoint.location[2]])
-        return roar_py_interface.RoarPyWaypoint(location=new_location, 
-                                                roll_pitch_yaw=waypoint.roll_pitch_yaw, 
-                                                lane_width=waypoint.lane_width)
-    def new_point(self, waypoint, new_y):
-        new_location = np.array([waypoint.location[0], new_y, waypoint.location[2]])
-        return roar_py_interface.RoarPyWaypoint(location=new_location, 
-                                                roll_pitch_yaw=waypoint.roll_pitch_yaw, 
-                                                lane_width=waypoint.lane_width)
-    def new_y(self, x):
-
-        y = -math.sqrt(102**2 - (x + 210)**2) - 962
-        return y
 
     async def step(
         self
@@ -444,10 +363,6 @@ class LatPIDController():
                 break
         return np.array([k_p, k_d, k_i])
 
-    
-    def normalize_rad(rad : float):
-        return (rad + np.pi) % (2 * np.pi) - np.pi
-
 class SpeedData:
     def __init__(self, distance_to_section, current_speed, target_speed, recommended_speed):
         self.current_speed = current_speed
@@ -612,12 +527,6 @@ class ThrottleController():
         max_speed = math.sqrt(675 * d)
         return SpeedData(distance, current_speed, target_speed, max_speed)
 
-    def speed_for_turn_fix_physics(self, distance: float, target_speed: float, current_speed: float):
-        # fix physics
-        braking_decceleration = 66.0 # try 11, 14, 56
-        max_speed = math.sqrt((target_speed**2) + 2 * distance * (braking_decceleration + 9.81))
-        return SpeedData(distance, current_speed, target_speed, max_speed)
-
     def get_next_interesting_waypoints(self, current_location, more_waypoints):
         # return a list of points with distances approximately as given 
         # in intended_target_distance[] from the current location.
@@ -702,11 +611,6 @@ class ThrottleController():
 
         target_speed = math.sqrt(mu*9.81*radius) * 3.6
         return max(20, min(target_speed, self.max_speed))  # clamp between 20 and max_speed
-
-    def print_speed(self, text: str, s1: float, s2: float, s3: float, s4: float, curr_s: float):
-        self.dprint(text + " s1= " + str(round(s1, 2)) + " s2= " + str(round(s2, 2)) + " s3= " 
-                    + str(round(s3, 2)) + " s4= " + str(round(s4, 2))
-            + " cspeed= " + str(round(curr_s, 2)))
 
     # debug print
     def dprint(self, text):
@@ -1117,47 +1021,3 @@ SEC_12_WAYPOINTS = [
   new_x_y(-281.29998779296875, 391.6999816894531),
   new_x_y(-282.1494140625, 393.758056640625)
 ]
-
-
-# Section 0: 319
-# Section 1: 175
-# Section 2: 114
-# Section 3: 146
-# Section 4: 124
-# Section 5: 77
-# Section 6: 313
-# Section 7: 211
-# Section 8: 254
-# Section 9: 75
-# Section 10: 238
-# Section 11: 189
-# Section 12: 161
-# Section 0: 207
-# Section 1: 162
-# Section 2: 112
-# Section 3: 146
-# Section 4: 124
-# Section 5: 75
-# Section 6: 315
-# Section 7: 213
-# Section 8: 252
-# Section 9: 75
-# Section 10: 241
-# Section 11: 188
-# Section 12: 163
-# Section 0: 207
-# Section 1: 162
-# Section 2: 112
-# Section 3: 146
-# Section 4: 124
-# Section 5: 77
-# Section 6: 314
-# Section 7: 212
-# Section 8: 252
-# Section 9: 75
-# Section 10: 239
-# Section 11: 188
-# Section 12: 164
-# end of the loop
-# done
-# Solution finished in 347.2500000000506 seconds
