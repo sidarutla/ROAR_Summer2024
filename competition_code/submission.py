@@ -193,7 +193,7 @@ class RoarCompetitionSolution:
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.75)
+                num_waypoints = int(num_points*0.7)
         elif self.current_lap == 3:
             if self.current_section == 1:
                 num_waypoints = int(num_points*0.62)
@@ -202,7 +202,7 @@ class RoarCompetitionSolution:
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.75)
+                num_waypoints = int(num_points*0.7)
 
         return num_waypoints
 
