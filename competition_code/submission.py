@@ -81,7 +81,7 @@ class RoarCompetitionSolution:
 
     async def initialize(self) -> None:
         num_sections = 12
-        self.section_indeces = [198, 438, 547, 691, 803, 884, 1287, 1508, 1854, 1968, 2264, 2592, 2770]
+        self.section_indeces = [198, 438, 547, 691, 803, 884, 1287, 1508, 1854, 1968, 2264, 2592, 2772]
         print(f"1 lap length: {len(self.maneuverable_waypoints)}")
         print(f"indexes: {self.section_indeces}")
 
@@ -177,31 +177,31 @@ class RoarCompetitionSolution:
               break
         # racing line 4 width
         if self.current_lap == 1:
-            if self.current_section in [1,2]:
-                num_waypoints = int(num_points*0.64)
-            if self.current_section in [4, 5]:
-                num_waypoints = int(num_points*1.04)
-            if self.current_section in [8,9]:
-                num_waypoints = int(num_points*1.2)
-            if self.current_section in [11,12]:
-                num_waypoints = int(num_points*0.75)
-        elif self.current_lap == 2:
-            if self.current_section in [1,2]:
+            if self.current_section == 1:
                 num_waypoints = int(num_points*0.65)
-            if self.current_section in [4, 5]:
-                num_waypoints = int(num_points*1.1)
-            if self.current_section in [8,9]:
+            if self.current_section == 4:
+                num_waypoints = int(num_points*1.07)
+            if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
-            if self.current_section in [11,12]:
+            if self.current_section == 11:
+                num_waypoints = int(num_points*0.7)
+        elif self.current_lap == 2:
+            if self.current_section == 1:
+                num_waypoints = int(num_points*0.65)
+            if self.current_section == 4:
+                num_waypoints = int(num_points*1.1)
+            if self.current_section in [8, 9]:
+                num_waypoints = int(num_points*1.2)
+            if self.current_section == 11:
                 num_waypoints = int(num_points*0.75)
         elif self.current_lap == 3:
-            if self.current_section in [1,2]:
+            if self.current_section == 1:
                 num_waypoints = int(num_points*0.62)
-            if self.current_section in [4, 5]:
+            if self.current_section == 4:
                 num_waypoints = int(num_points*1.1)
-            if self.current_section in [8,9]:
+            if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
-            if self.current_section in [11,12]:
+            if self.current_section == 11:
                 num_waypoints = int(num_points*0.75)
 
         return num_waypoints
