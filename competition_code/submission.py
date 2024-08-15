@@ -178,22 +178,22 @@ class RoarCompetitionSolution:
         # racing line 4 width
         if self.current_lap == 1:
             if self.current_section == 1:
-                num_waypoints = int(num_points*0.65)
+                num_waypoints = int(num_points*0.63)
             if self.current_section == 4:
                 num_waypoints = int(num_points*1.07)
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.7)
+                num_waypoints = int(num_points*0.72)
         elif self.current_lap == 2:
             if self.current_section == 1:
-                num_waypoints = int(num_points*0.65)
+                num_waypoints = int(num_points*0.62)
             if self.current_section == 4:
                 num_waypoints = int(num_points*1.1)
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.7)
+                num_waypoints = int(num_points*0.72)
         elif self.current_lap == 3:
             if self.current_section == 1:
                 num_waypoints = int(num_points*0.62)
@@ -202,7 +202,7 @@ class RoarCompetitionSolution:
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.7)
+                num_waypoints = int(num_points*0.72)
 
         return num_waypoints
 
