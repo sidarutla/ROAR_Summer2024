@@ -1,3 +1,3 @@
 # ROAR_Competition
 
-University High's Solution #1 for the ROAR Competition
+Sid Arutla's solution for the Summer 2024 ROAR Competition (based on University High's winning solution from Spring 2024)
