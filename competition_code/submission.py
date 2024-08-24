@@ -81,7 +81,7 @@ class RoarCompetitionSolution:
 
     async def initialize(self) -> None:
         num_sections = 12
-        self.section_indeces = [198, 438, 547, 691, 803, 884, 1287, 1508, 1854, 1968, 2264, 2592, 2772]
+        self.section_indeces = [198, 450, 547, 691, 803, 884, 1330, 1508, 1854, 1968, 2264, 2680, 2772]
         print(f"1 lap length: {len(self.maneuverable_waypoints)}")
         print(f"indexes: {self.section_indeces}")
 
@@ -175,7 +175,6 @@ class RoarCompetitionSolution:
             if speed < speed_upper_bound:
               num_waypoints = num_points
               break
-        # racing line 4 width
         if self.current_lap == 1:
             if self.current_section == 1:
                 num_waypoints = int(num_points*0.63)
@@ -184,25 +183,25 @@ class RoarCompetitionSolution:
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.72)
+                num_waypoints = int(num_points*0.74)
         elif self.current_lap == 2:
             if self.current_section == 1:
-                num_waypoints = int(num_points*0.62)
+                num_waypoints = round(num_points*0.67)
             if self.current_section == 4:
                 num_waypoints = int(num_points*1.1)
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.72)
+                num_waypoints = int(num_points*0.74)
         elif self.current_lap == 3:
             if self.current_section == 1:
-                num_waypoints = int(num_points*0.62)
+                num_waypoints = round(num_points*0.67)
             if self.current_section == 4:
                 num_waypoints = int(num_points*1.1)
             if self.current_section in [8, 9]:
                 num_waypoints = int(num_points*1.2)
             if self.current_section == 11:
-                num_waypoints = int(num_points*0.72)
+                num_waypoints = int(num_points*0.74)
 
         return num_waypoints
 
@@ -623,7 +622,7 @@ class ThrottleController():
         mu = 2.5
 
         if current_section == 0:
-            mu = 2.8
+            mu = 100 # flat out
         if current_section == 1:
             mu = 2.0
         if current_section == 2:
@@ -631,11 +630,11 @@ class ThrottleController():
         if current_section == 3:
             mu = 2.75
         if current_section == 4:
-            mu = 3.25
+            mu = 3.2
         if current_section == 5:
-            mu = 3.4
+            mu = 100 # flat out
         if current_section == 6:
-            mu = 1.95
+            mu = 1.9
         if current_section == 7:
             mu = 1.3
 
@@ -644,7 +643,7 @@ class ThrottleController():
         if current_section == 9:
             mu = 3.6
         if current_section == 10:
-            mu = 3.8
+            mu = 100 # flat out
         if current_section == 11:
             mu = 1.9
         if current_section == 12:
